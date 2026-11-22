@@ -1,0 +1,3 @@
+import { Text, View, StyleSheet } from "react-native";
+export default function Library(){return <View style={s.bg}><Text style={s.title}>Your chats</Text><View style={s.empty}><Text style={s.icon}>✦</Text><Text style={s.head}>Your story begins here</Text><Text style={s.sub}>Start chatting with a character and your conversations will appear here.</Text></View></View>}
+const s=StyleSheet.create({bg:{flex:1,backgroundColor:"#100D18",padding:22,paddingTop:35},title:{fontSize:29,fontWeight:"800",color:"#FFF"},empty:{flex:1,alignItems:"center",justifyContent:"center",paddingHorizontal:28},icon:{fontSize:36,color:"#C7A6FF"},head:{fontSize:18,fontWeight:"800",color:"#F7F0FF",marginTop:16},sub:{fontSize:12,color:"#9B91A8",textAlign:"center",lineHeight:19,marginTop:8}});
