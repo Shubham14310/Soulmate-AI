@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Soulmate AI",
+    "slug": "soulmate-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "soulmateai",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "plugins": ["expo-router"],
+    "android": {
+      "package": "com.soulmateai.chat",
+      "adaptiveIcon": {
+        "backgroundColor": "#100D18"
+      }
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.soulmateai.chat"
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
