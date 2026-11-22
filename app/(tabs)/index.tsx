@@ -2,12 +2,14 @@ import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { ScrollView, Text, View, Image, Pressable, StyleSheet, TextInput } from "react-native";
+import { useEffect, useState } from "react";
+import { getCharacters, type Character } from "../../src/storage";
 
 const purple = "#C7A6FF";
 const characters = [
-  { id: "hana", name: "Hana", detail: "Dreamy storyteller · Fantasy", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=85", tag: "POPULAR" },
-  { id: "akari", name: "Akari", detail: "Cheerful artist · Slice of life", image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&auto=format&fit=crop&q=85", tag: "NEW" },
-  { id: "rin", name: "Rin", detail: "Quiet genius · Mystery", image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=85", tag: "TRENDING" }
+  { id: "hana", name: "Hana", detail: "Dreamy storyteller · Fantasy", image: "https://api.dicebear.com/9.x/adventurer/png?seed=Hana&backgroundColor=b6e3f4,c0aede,d1d4f9", tag: "POPULAR" },
+  { id: "akari", name: "Akari", detail: "Cheerful artist · Slice of life", image: "https://api.dicebear.com/9.x/adventurer/png?seed=Akari&backgroundColor=ffd5dc,ffdfbf,d1d4f9", tag: "NEW" },
+  { id: "rin", name: "Rin", detail: "Quiet genius · Mystery", image: "https://api.dicebear.com/9.x/adventurer/png?seed=Rin&backgroundColor=c0aede,d1d4f9,b6e3f4", tag: "TRENDING" }
 ];
 
 function SectionTitle({ title, action }: { title: string; action?: string }) {
@@ -42,6 +44,15 @@ export default function Home() {
           <View style={s.characterShade} />
           <View style={s.tag}><Text style={s.tagText}>{c.tag}</Text></View>
           <View style={s.characterInfo}><Text style={s.characterName}>{c.name}</Text><Text style={s.characterDetail}>{c.detail}</Text></View>
+          <View style={s.arrow}><Ionicons name="arrow-up" size={17} color="#21172E" /></View>
+        </Pressable>
+      ))}
+      {customCharacters.map((c) => (
+        <Pressable key={c.id} style={s.characterCard} onPress={() => router.push({ pathname: "/chat/[id]", params: { id: c.id, name: c.name } })}>
+          <Image source={{ uri: c.avatar }} style={s.characterImage} />
+          <View style={s.characterShade} />
+          <View style={s.tag}><Text style={s.tagText}>YOUR CHARACTER</Text></View>
+          <View style={s.characterInfo}><Text style={s.characterName}>{c.name}</Text><Text style={s.characterDetail}>{c.tagline}</Text></View>
           <View style={s.arrow}><Ionicons name="arrow-up" size={17} color="#21172E" /></View>
         </Pressable>
       ))}
