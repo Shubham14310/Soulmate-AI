@@ -1,7 +1,6 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
-const INK = "#100D18";
 const MUTED = "#8E879C";
 const ACCENT = "#C7A6FF";
 
