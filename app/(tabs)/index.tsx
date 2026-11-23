@@ -18,8 +18,10 @@ function SectionTitle({ title, action }: { title: string; action?: string }) {
 
 export default function Home() {
   const router = useRouter();
+  const [customCharacters, setCustomCharacters] = useState<Character[]>([]);
+  useEffect(() => { getCharacters().then(setCustomCharacters).catch(() => setCustomCharacters([])); }, []);
   return (
-    <ScrollView style={s.screen} contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+    <ScrollView style={s.screen} contentContainerStyle={s.content} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
       <View style={s.top}>
         <View><Text style={s.eyebrow}>YOUR IMAGINATION, YOUR WORLD</Text><Text style={s.brand}>Soulmate <Text style={{ color: purple }}>AI</Text></Text></View>
         <Pressable style={s.avatarButton} onPress={() => router.push("/profile")}><Ionicons name="person" size={20} color="#EDE7F7" /></Pressable>
@@ -63,7 +65,7 @@ export default function Home() {
 }
 
 const s = StyleSheet.create({
-  screen:{flex:1,backgroundColor:"#100D18"}, content:{padding:20,paddingTop:20,paddingBottom:30},
+  screen:{flex:1,backgroundColor:"#100D18"}, content:{padding:20,paddingTop:8,paddingBottom:20},
   top:{flexDirection:"row",alignItems:"center",justifyContent:"space-between",marginBottom:22},
   eyebrow:{fontSize:9,letterSpacing:2,color:"#9A8BAE",fontWeight:"700"},brand:{fontSize:27,fontWeight:"800",color:"#F7F1FF",letterSpacing:-1,marginTop:3},
   avatarButton:{width:42,height:42,borderRadius:15,backgroundColor:"#241D30",borderWidth:1,borderColor:"#393047",alignItems:"center",justifyContent:"center"},
