@@ -3,7 +3,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export type Character = { id:string; name:string; tagline:string; personality:string; avatar:string; category:string };
 export type ChatMessage = { role:"user"|"assistant"; content:string; createdAt:number };
 const KEYS={endpoint:"soulmate.endpoint",characters:"soulmate.characters",chats:"soulmate.chats"};
-export async function getEndpoint(){return (await AsyncStorage.getItem(KEYS.endpoint))||"";}
+export const DEFAULT_ENDPOINT="https://stout-mousiness-dyslexic.ngrok-free.dev/api/generate";
+export async function getEndpoint(){return (await AsyncStorage.getItem(KEYS.endpoint))||DEFAULT_ENDPOINT;}
 export async function saveEndpoint(value:string){await AsyncStorage.setItem(KEYS.endpoint,value.trim());}
 export async function getCharacters():Promise<Character[]>{try{return JSON.parse((await AsyncStorage.getItem(KEYS.characters))||"[]");}catch{return [];}}
 export async function getCharacter(id:string):Promise<Character|undefined>{return (await getCharacters()).find(character=>character.id===id);}
