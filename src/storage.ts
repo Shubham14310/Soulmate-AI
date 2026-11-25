@@ -3,15 +3,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export type Character = { id:string; name:string; tagline:string; personality:string; avatar:string; category:string };
 export type ChatMessage = { role:"user"|"assistant"; content:string; createdAt:number };
 const KEYS={endpoint:"soulmate.endpoint",characters:"soulmate.characters",chats:"soulmate.chats"};
+const DEFAULT_ENDPOINT="https://soulmate-ai-api.onrender.com/api/generate";
 
-// The old temporary ngrok endpoint is intentionally retired.
+// The deployed backend is the default; users can still replace it in Settings.
 export async function getEndpoint() {
   const saved = (await AsyncStorage.getItem(KEYS.endpoint)) || "";
   if (saved.includes("ngrok-free.dev") || saved.includes("ngrok.io")) {
     await AsyncStorage.removeItem(KEYS.endpoint);
-    return "";
+    return DEFAULT_ENDPOINT;
   }
-  return saved;
+  return saved.trim() || DEFAULT_ENDPOINT;
 }
 export async function saveEndpoint(value:string){await AsyncStorage.setItem(KEYS.endpoint,value.trim());}
 export async function getCharacters():Promise<Character[]>{try{return JSON.parse((await AsyncStorage.getItem(KEYS.characters))||"[]");}catch{return [];}}
