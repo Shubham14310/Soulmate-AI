@@ -4,36 +4,38 @@ import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { getEndpoint, saveEndpoint } from "../src/storage";
 
+const DEFAULT_ENDPOINT = "https://soulmate-ai-api.onrender.com/api/generate";
+
 export default function Settings() {
   const router = useRouter();
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(DEFAULT_ENDPOINT);
   const [saving, setSaving] = useState(false);
-  useEffect(() => { getEndpoint().then(setUrl); }, []);
+  useEffect(() => { getEndpoint().then(value => setUrl(value || DEFAULT_ENDPOINT)); }, []);
   const save = async () => {
     const value = url.trim();
-    if (value && !/^https:\/\//i.test(value)) {
+    if (!/^https:\/\//i.test(value)) {
       Alert.alert("Invalid URL", "Backend URL https:// se start hona chahiye.");
       return;
     }
     setSaving(true);
     await saveEndpoint(value);
     setSaving(false);
-    Alert.alert("Saved", value ? "OpenRouter backend URL saved on this device." : "Backend URL cleared.");
+    Alert.alert("Saved", "Soulmate AI backend URL saved on this device.");
   };
   return <ScrollView style={s.bg} contentContainerStyle={s.wrap} contentInsetAdjustmentBehavior="automatic">
     <Pressable onPress={() => router.back()} style={s.back}><Ionicons name="chevron-back" size={23} color="#FFF" /></Pressable>
     <Text style={s.kicker}>PERSONALIZE YOUR EXPERIENCE</Text>
     <Text style={s.title}>AI connection</Text>
-    <Text style={s.sub}>Connect the Soulmate AI backend. Your OpenRouter API key stays on the server and is never stored in this app.</Text>
+    <Text style={s.sub}>Soulmate AI's deployed backend is pre-filled. Your OpenRouter API key stays on the server and is never stored in this app.</Text>
     <Text style={s.label}>BACKEND API URL</Text>
     <TextInput value={url} onChangeText={setUrl} placeholder="https://your-service.onrender.com/api/generate" placeholderTextColor="#82798F" autoCapitalize="none" keyboardType="url" style={s.input} />
     <View style={s.info}>
       <Text style={s.infoTitle}>OpenRouter Free AI</Text>
-      <Text style={s.infoText}>The backend uses OpenRouter's free-model router. Save the deployed backend URL ending in /api/generate here.</Text>
-      <Text style={s.infoText}>Do not paste your OpenRouter API key into this app.</Text>
+      <Text style={s.infoText}>The backend uses OpenRouter's free-model router. Save changes here only if your backend address changes.</Text>
+      <Text style={s.infoText}>Never paste your OpenRouter API key into this app.</Text>
     </View>
     <Pressable onPress={save} style={s.button}><Text style={s.buttonText}>{saving ? "Saving..." : "Save backend URL"}</Text></Pressable>
-    <Text style={s.note}>The old temporary ngrok connection has been removed. The backend URL will be available after deployment.</Text>
+    <Text style={s.note}>Render's free service may sleep during inactivity, so the first reply after a quiet period can take longer.</Text>
   </ScrollView>;
 }
 
