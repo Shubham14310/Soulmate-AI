@@ -3,8 +3,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export type Character = { id:string; name:string; tagline:string; personality:string; avatar:string; category:string };
 export type ChatMessage = { role:"user"|"assistant"; content:string; createdAt:number };
 const KEYS={endpoint:"soulmate.endpoint",characters:"soulmate.characters",chats:"soulmate.chats"};
-export const DEFAULT_ENDPOINT="https://stout-mousiness-dyslexic.ngrok-free.dev/api/generate";
-export async function getEndpoint(){return (await AsyncStorage.getItem(KEYS.endpoint))||DEFAULT_ENDPOINT;}
+
+// The old temporary ngrok endpoint is intentionally retired.
+export async function getEndpoint() {
+  const saved = (await AsyncStorage.getItem(KEYS.endpoint)) || "";
+  if (saved.includes("ngrok-free.dev") || saved.includes("ngrok.io")) {
+    await AsyncStorage.removeItem(KEYS.endpoint);
+    return "";
+  }
+  return saved;
+}
 export async function saveEndpoint(value:string){await AsyncStorage.setItem(KEYS.endpoint,value.trim());}
 export async function getCharacters():Promise<Character[]>{try{return JSON.parse((await AsyncStorage.getItem(KEYS.characters))||"[]");}catch{return [];}}
 export async function getCharacter(id:string):Promise<Character|undefined>{return (await getCharacters()).find(character=>character.id===id);}
