@@ -1,0 +1,12 @@
+{
+  "name": "soulmate-ai-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Secure OpenRouter backend for Soulmate AI",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
